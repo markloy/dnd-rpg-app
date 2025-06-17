@@ -1,0 +1,712 @@
+/* src/App.css */
+
+/* Global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+/* App layout */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #8B4513, #A0522D);
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.app-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.app-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Character Panel Styles */
+.character-panel {
+  background: #2d2d2d;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid #444;
+}
+
+.character-display {
+  margin-bottom: 1.5rem;
+}
+
+.character-display h2 {
+  color: #FFD700;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* ===== ENHANCED HEALTH BAR STYLES ===== */
+.health-bar-container {
+  margin: 1rem 0;
+}
+
+.health-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+.health-label strong {
+  font-weight: 600;
+  color: #FFD700;
+}
+
+.health-bar-background {
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(145deg, #333, #444);
+  border-radius: 10px;
+  border: 1px solid #555;
+  box-shadow: 
+    inset 2px 2px 5px rgba(0,0,0,0.3),
+    inset -2px -2px 5px rgba(255,255,255,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.health-bar-fill {
+  height: 100%;
+  border-radius: 9px;
+  transition: width 0.3s ease-in-out;
+  background: linear-gradient(45deg, 
+    rgba(255,255,255,0.1) 0%, 
+    transparent 50%, 
+    rgba(0,0,0,0.1) 100%);
+  box-shadow: 
+    0 1px 3px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255,255,255,0.2);
+  position: relative;
+}
+
+.health-warning {
+  color: #ff4444;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 0.5rem;
+  animation: pulse 1s infinite;
+}
+
+/* ===== ENHANCED EXPERIENCE BAR STYLES ===== */
+.experience-bar-container {
+  margin: 1rem 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.experience-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #ffffff;
+}
+
+.experience-label strong {
+  font-weight: 600;
+  color: #FFD700;
+}
+
+.experience-numbers {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: #ccc;
+}
+
+.experience-needed {
+  color: #999;
+  font-style: italic;
+}
+
+.max-level {
+  color: #ffd700;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.experience-bar-background {
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(145deg, #333, #444);
+  border-radius: 10px;
+  border: 1px solid #555;
+  box-shadow: 
+    inset 2px 2px 5px rgba(0,0,0,0.3),
+    inset -2px -2px 5px rgba(255,255,255,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.experience-bar-fill {
+  height: 100%;
+  border-radius: 9px;
+  background: linear-gradient(45deg, 
+    rgba(255,255,255,0.1) 0%, 
+    transparent 50%, 
+    rgba(0,0,0,0.1) 100%);
+  box-shadow: 
+    0 1px 3px rgba(0,0,0,0.3),
+    inset 0 1px 1px rgba(255,255,255,0.2);
+  position: relative;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Enhanced shine effect for dark theme */
+.experience-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,0.2),
+    transparent
+  );
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Enhanced pulse animation for dark theme */
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1;
+    box-shadow: 
+      0 1px 3px rgba(0,0,0,0.3),
+      inset 0 1px 1px rgba(255,255,255,0.2),
+      0 0 0 rgba(23, 248, 3, 0.3);
+  }
+  50% { 
+    opacity: 0.7;
+    box-shadow: 
+      0 2px 6px rgba(0,0,0,0.4),
+      inset 0 1px 1px rgba(255,255,255,0.2),
+      0 0 10px rgba(23, 248, 3, 0.6);
+  }
+}
+
+/* Enhanced warning and notification styles for dark theme */
+.experience-warning,
+.max-level-notification {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.experience-warning {
+  background: linear-gradient(135deg, #2d5016, #3a6b1b);
+  color: #7fff00;
+  border: 1px solid #4a7c23;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  animation: pulse 1s infinite;
+}
+
+.max-level-notification {
+  background: linear-gradient(135deg, #b8860b, #daa520);
+  color: #000;
+  border: 1px solid #ffd700;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stat Block Styles */
+.stat-block {
+  background: #1e1e1e;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid #555;
+}
+
+.stat-block h3 {
+  color: #FFD700;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.stat-item {
+  background: #333;
+  padding: 0.5rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #ccc;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-weight: bold;
+}
+
+.stat-score {
+  font-size: 1.2rem;
+  color: #FFD700;
+}
+
+.stat-modifier {
+  font-size: 0.9rem;
+  color: #888;
+  margin-left: 0.25rem;
+}
+
+.derived-stats {
+  border-top: 1px solid #555;
+  padding-top: 1rem;
+}
+
+.derived-stats h4 {
+  color: #FFD700;
+  margin-bottom: 0.5rem;
+}
+
+.derived-stat {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+/* ===== ENHANCED CHARACTER SHEET STYLES ===== */
+.character-sheet {
+  background: #2d2d2d;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid #444;
+}
+
+.character-sheet h1 {
+  margin: 0 0 0.5rem 0;
+  color: #FFD700;
+  font-size: 2rem;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.character-sheet > p {
+  margin: 0.25rem 0 1rem 0;
+  color: #ccc;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Enhanced Stats Grid for dark theme */
+.character-stats {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #1e1e1e;
+  border-radius: 8px;
+  border: 1px solid #555;
+}
+
+.character-stats h3 {
+  margin: 0 0 0.75rem 0;
+  color: #FFD700;
+  font-size: 1.2rem;
+}
+
+.character-stats .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.character-stats .stats-grid span {
+  padding: 0.5rem;
+  background: #333;
+  border-radius: 4px;
+  border: 1px solid #555;
+  text-align: center;
+}
+
+/* Combat Stats for dark theme */
+.combat-stats {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: #2d1810;
+  border-radius: 6px;
+  border: 1px solid #8B4513;
+}
+
+.combat-stats p {
+  margin: 0.25rem 0;
+  color: #FFD700;
+  font-weight: 500;
+}
+
+/* Equipment Display for dark theme */
+.equipment-display {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #1a2332;
+  border-radius: 8px;
+  border: 1px solid #4a5568;
+}
+
+.equipment-display h3 {
+  margin: 0 0 0.75rem 0;
+  color: #87CEEB;
+  font-size: 1.2rem;
+}
+
+.equipment-display p {
+  margin: 0.4rem 0;
+  color: #b3d9ff;
+  font-size: 0.9rem;
+}
+
+/* Button Styles */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-size: 1rem;
+  margin: 0.25rem;
+}
+
+.btn:hover:not(.btn--disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+}
+
+.btn--secondary {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  color: white;
+}
+
+.btn--danger {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+}
+
+.btn--success {
+  background: linear-gradient(135deg, #28a745, #1e7e34);
+  color: white;
+}
+
+.btn--small {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.btn--medium {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.btn--large {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+}
+
+.btn--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Enhanced Action Buttons for dark theme */
+.action-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.action-buttons button {
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 120px;
+  font-size: 0.9rem;
+}
+
+.heal-button {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.xp-button {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+  box-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+}
+
+.big-xp-button {
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+  color: white;
+  box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);
+}
+
+.action-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+.action-buttons button:active {
+  transform: translateY(0);
+}
+
+/* Development Tools for dark theme */
+.dev-tools {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #1e1e1e;
+  border-radius: 8px;
+  border: 1px dashed #666;
+}
+
+.dev-tools h4 {
+  margin: 0 0 0.75rem 0;
+  color: #ccc;
+  font-size: 1rem;
+}
+
+.level-test-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+  flex-wrap: wrap;
+}
+
+.level-test-buttons button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #666;
+  background: #333;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.level-test-buttons button:hover {
+  background: #444;
+  border-color: #777;
+}
+
+.debug-info {
+  margin-top: 0.75rem;
+  padding: 0.5rem;
+  background: #333;
+  border-radius: 4px;
+  border: 1px solid #555;
+}
+
+.debug-info small {
+  color: #999;
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+}
+
+/* Game Panel Styles */
+.game-panel {
+  background: #2d2d2d;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  border: 2px solid #444;
+}
+
+.game-panel h2 {
+  color: #FFD700;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.monster-area {
+  background: #1e1e1e;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 2px solid #8B0000;
+}
+
+.monster-area h3 {
+  color: #ff6b6b;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.monster-stats {
+  background: #333;
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.monster-stats p {
+  margin: 0.5rem 0;
+}
+
+.combat-actions {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.no-encounter {
+  text-align: center;
+  padding: 2rem;
+  background: #1e1e1e;
+  border-radius: 8px;
+  border: 2px dashed #555;
+}
+
+.no-encounter p {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+.character-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+/* Footer */
+.app-footer {
+  background: #1e1e1e;
+  padding: 1rem;
+  border-top: 2px solid #444;
+}
+
+.game-status {
+  text-align: center;
+  color: #ccc;
+}
+
+.game-status span {
+  margin: 0 0.5rem;
+}
+
+/* Equipment and progression sections */
+.progression-section, .equipment-section {
+  background: #1e1e1e;
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid #555;
+}
+
+.progression-section p, .equipment-section p {
+  margin: 0.5rem 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .app-main {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  
+  .app-header h1 {
+    font-size: 2rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .character-stats .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .btn {
+    width: 100%;
+    margin: 0.25rem 0;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-buttons button {
+    min-width: unset;
+  }
+  
+  .level-test-buttons {
+    justify-content: center;
+  }
+  
+  .experience-label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
