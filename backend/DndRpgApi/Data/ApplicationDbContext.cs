@@ -19,7 +19,7 @@ namespace DndRpgApi.Data
         public DbSet<Character> Characters { get; set; }
         public DbSet<Monster> Monsters { get; set; }
 
-        // Configure the model
+        // Configure the model (runs when EF Core creates the database)
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Call base method to configure Identity tables
@@ -28,10 +28,10 @@ namespace DndRpgApi.Data
             // Configure Character entity
             modelBuilder.Entity<Character>(entity =>
             {
-                // Table name 
+                // Table name (optional - EF Core would use "Characters" by default)
                 entity.ToTable("Characters");
 
-                // Primary key 
+                // Primary key (optional - EF Core detects "Id" automatically)
                 entity.HasKey(e => e.Id);
 
                 // Configure the relationship between User and Character
@@ -73,7 +73,7 @@ namespace DndRpgApi.Data
                 entity.Property(e => e.UpdatedAt).HasDefaultValueSql("GETUTCDATE()");
             });
 
-            // Seed data 
+            // Seed data (optional) - we'll add this in a later lesson
             SeedData(modelBuilder);
         }
 
@@ -111,7 +111,7 @@ namespace DndRpgApi.Data
 
         private static void SeedData(ModelBuilder modelBuilder)
         {
-            
+            // We'll add seed data in Lesson 4
             // For now, just a placeholder to show the concept
         }
     }

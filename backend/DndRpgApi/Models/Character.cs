@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace DndRpgApi.Models
 {
@@ -12,22 +13,61 @@ namespace DndRpgApi.Models
         
         [Required(ErrorMessage = "Character name is required")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Character name must be between 2 and 100 characters")]
-        [RegularExpression(@"^[a-zA-Z\s\-'\.]+$", ErrorMessage = "Character name can only contain letters, spaces, hyphens, apostrophes, and periods")]
         public string Name { get; set; } = string.Empty;
 
         [Range(1, 20, ErrorMessage = "Level must be between 1 and 20")]
         public int Level { get; set; } = 1;
 
-        [Range(1, 999, ErrorMessage = "Health must be between 1 and 999")]
+        [Required(ErrorMessage = "User ID is required")]
+        [StringLength(450)] // Standard Identity user ID length
+        public string UserId { get; set; } = string.Empty;
+
+        // ===== D&D CHARACTER DETAILS =====
+        
+        [Required(ErrorMessage = "Character class is required")]
+        [StringLength(50, ErrorMessage = "Character class cannot exceed 50 characters")]
+        public string CharacterClass { get; set; } = "Fighter";
+
+        [Required(ErrorMessage = "Background is required")]
+        [StringLength(50, ErrorMessage = "Background cannot exceed 50 characters")]
+        public string Background { get; set; } = "Soldier";
+
+        [Required(ErrorMessage = "Race is required")]
+        [StringLength(50, ErrorMessage = "Race cannot exceed 50 characters")]
+        public string Race { get; set; } = "Human";
+
+        // ===== ABILITY SCORES =====
+        
+        [Range(1, 20, ErrorMessage = "Strength must be between 1 and 20")]
+        public int Strength { get; set; } = 10;
+
+        [Range(1, 20, ErrorMessage = "Dexterity must be between 1 and 20")]
+        public int Dexterity { get; set; } = 10;
+
+        [Range(1, 20, ErrorMessage = "Constitution must be between 1 and 20")]
+        public int Constitution { get; set; } = 10;
+
+        [Range(1, 20, ErrorMessage = "Intelligence must be between 1 and 20")]
+        public int Intelligence { get; set; } = 10;
+
+        [Range(1, 20, ErrorMessage = "Wisdom must be between 1 and 20")]
+        public int Wisdom { get; set; } = 10;
+
+        [Range(1, 20, ErrorMessage = "Charisma must be between 1 and 20")]
+        public int Charisma { get; set; } = 10;
+
+        // ===== HEALTH AND EXPERIENCE =====
+        
+        [Range(0, 999, ErrorMessage = "Health must be between 0 and 999")]
         public int Health { get; set; } = 100;
 
-        [Range(1, 999, ErrorMessage = "Maximum health must be between 1 and 999")]
+        [Range(1, 999, ErrorMessage = "Max health must be between 1 and 999")]
         public int MaxHealth { get; set; } = 100;
 
         [Range(0, 999999, ErrorMessage = "Experience must be between 0 and 999,999")]
         public int Experience { get; set; } = 0;
 
-        [Range(1, 999999, ErrorMessage = "Experience to next level must be between 1 and 999,999")]
+        [Range(0, 999999, ErrorMessage = "Experience to next level must be between 0 and 999,999")]
         public int ExperienceToNextLevel { get; set; } = 300;
 
         [Range(0, 999999, ErrorMessage = "Total experience must be between 0 and 999,999")]
@@ -36,77 +76,43 @@ namespace DndRpgApi.Models
         [Range(0, 999999, ErrorMessage = "Gold must be between 0 and 999,999")]
         public int Gold { get; set; } = 100;
 
-        // ===== USER RELATIONSHIP =====
-        
-        [Required(ErrorMessage = "User ID is required")]
-        [StringLength(450, ErrorMessage = "User ID cannot exceed 450 characters")]
-        public string UserId { get; set; } = string.Empty;
-
-        public virtual ApplicationUser? User { get; set; }
-
-        // ===== ABILITY SCORES (D&D Standard: 1-20) =====
-        
-        [Range(1, 20, ErrorMessage = "Strength must be between 1 and 20")]
-        [Display(Name = "Strength", Description = "Physical power and muscle")]
-        public int Strength { get; set; } = 16;
-
-        [Range(1, 20, ErrorMessage = "Dexterity must be between 1 and 20")]
-        [Display(Name = "Dexterity", Description = "Agility, reflexes, and balance")]
-        public int Dexterity { get; set; } = 14;
-
-        [Range(1, 20, ErrorMessage = "Constitution must be between 1 and 20")]
-        [Display(Name = "Constitution", Description = "Health, stamina, and vitality")]
-        public int Constitution { get; set; } = 15;
-
-        [Range(1, 20, ErrorMessage = "Intelligence must be between 1 and 20")]
-        [Display(Name = "Intelligence", Description = "Reasoning ability and memory")]
-        public int Intelligence { get; set; } = 12;
-
-        [Range(1, 20, ErrorMessage = "Wisdom must be between 1 and 20")]
-        [Display(Name = "Wisdom", Description = "Awareness, intuition, and insight")]
-        public int Wisdom { get; set; } = 13;
-
-        [Range(1, 20, ErrorMessage = "Charisma must be between 1 and 20")]
-        [Display(Name = "Charisma", Description = "Force of personality and leadership")]
-        public int Charisma { get; set; } = 10;
-
         // ===== EQUIPMENT =====
         
         [StringLength(50, ErrorMessage = "Weapon name cannot exceed 50 characters")]
-        [RegularExpression(@"^[a-zA-Z\s\-'\.+]+$", ErrorMessage = "Weapon name contains invalid characters")]
         public string WeaponName { get; set; } = "Longsword";
-        
-        [StringLength(20, ErrorMessage = "Weapon damage cannot exceed 20 characters")]
-        [RegularExpression(@"^(\d+d\d+(\+\d+)?|0)$", ErrorMessage = "Weapon damage must be in format like '1d8+3' or '2d6'")]
-        public string WeaponDamage { get; set; } = "1d8";
-        
-        [Range(-10, 20, ErrorMessage = "Weapon attack bonus must be between -10 and +20")]
-        public int WeaponAttackBonus { get; set; } = 3;
-        
-        [StringLength(50, ErrorMessage = "Armor name cannot exceed 50 characters")]
-        [RegularExpression(@"^[a-zA-Z\s\-'\.]+$", ErrorMessage = "Armor name contains invalid characters")]
-        public string ArmorName { get; set; } = "Chainmail";
-        
-        [Range(10, 30, ErrorMessage = "Armor Class must be between 10 and 30")]
-        public int ArmorClass { get; set; } = 16;
-        
-        [StringLength(50, ErrorMessage = "Shield name cannot exceed 50 characters")]
-        [RegularExpression(@"^[a-zA-Z\s\-'\.]*$", ErrorMessage = "Shield name contains invalid characters")]
-        public string ShieldName { get; set; } = "Shield";
-        
-        [Range(0, 10, ErrorMessage = "Shield AC bonus must be between 0 and 10")]
-        public int ShieldArmorClassBonus { get; set; } = 2;
 
-        // ===== AUDIT FIELDS =====
+        [StringLength(20, ErrorMessage = "Weapon damage cannot exceed 20 characters")]
+        [RegularExpression(@"^(\d+d\d+(\+\d+)?|0)$", ErrorMessage = "Weapon damage must be in format like '1d8+2'")]
+        public string WeaponDamage { get; set; } = "1d8";
+
+        [Range(-5, 20, ErrorMessage = "Weapon attack bonus must be between -5 and 20")]
+        public int WeaponAttackBonus { get; set; } = 2;
+
+        [StringLength(50, ErrorMessage = "Armor name cannot exceed 50 characters")]
+        public string ArmorName { get; set; } = "Chainmail";
+
+        [Range(6, 30, ErrorMessage = "Armor class must be between 6 and 30")]
+        public int ArmorClass { get; set; } = 10;
+
+        [StringLength(50, ErrorMessage = "Shield name cannot exceed 50 characters")]
+        public string ShieldName { get; set; } = "";
+
+        [Range(0, 10, ErrorMessage = "Shield AC bonus must be between 0 and 10")]
+        public int ShieldArmorClassBonus { get; set; } = 0;
+
+        // ===== TIMESTAMPS =====
         
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        // ===== COMPUTED PROPERTIES =====
+        // ===== NAVIGATION PROPERTIES =====
         
-        /// <summary>
-        /// Calculated ability modifier based on D&D 5e rules
-        /// </summary>
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser? User { get; set; }
+
+        // ===== COMPUTED PROPERTIES =====
+        // These are calculated values that don't get stored in the database
+        
         [NotMapped]
         public int StrengthModifier => (Strength - 10) / 2;
 
@@ -125,76 +131,123 @@ namespace DndRpgApi.Models
         [NotMapped]
         public int CharismaModifier => (Charisma - 10) / 2;
 
-        /// <summary>
-        /// Total Armor Class including shield bonus
-        /// </summary>
         [NotMapped]
         public int TotalArmorClass => ArmorClass + ShieldArmorClassBonus;
 
-        /// <summary>
-        /// Character's current health percentage
-        /// </summary>
         [NotMapped]
-        public decimal HealthPercentage => MaxHealth > 0 ? (decimal)Health / MaxHealth * 100 : 0;
+        public double HealthPercentage => MaxHealth > 0 ? (double)Health / MaxHealth * 100 : 0;
 
-        /// <summary>
-        /// Experience needed until next level
-        /// </summary>
         [NotMapped]
         public int ExperienceNeeded => Math.Max(0, ExperienceToNextLevel - Experience);
-    }
 
-    // ===== CUSTOM VALIDATION ATTRIBUTES =====
-
-    /// <summary>
-    /// Validates that Health never exceeds MaxHealth
-    /// </summary>
-    public class HealthNotExceedingMaxHealthAttribute : ValidationAttribute
-    {
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        [NotMapped]
+        public string HealthStatus => HealthPercentage switch
         {
-            var character = (Character)validationContext.ObjectInstance;
-            
-            if (character.Health > character.MaxHealth)
-            {
-                // Handle nullable MemberName safely
-                var memberNames = validationContext.MemberName != null 
-                    ? new[] { validationContext.MemberName } 
-                    : Array.Empty<string>();
-                    
-                return new ValidationResult(
-                    "Current health cannot exceed maximum health",
-                    memberNames);
-            }
-            
-            return ValidationResult.Success;
+            >= 75 => "Healthy",
+            >= 50 => "Wounded",
+            >= 25 => "Bloodied",
+            > 0 => "Near Death",
+            _ => "Unconscious"
+        };
+
+        [NotMapped]
+        public bool IsAlive => Health > 0;
+
+        [NotMapped]
+        public bool CanLevelUp => Experience >= ExperienceToNextLevel && Level < 20;
+
+        // ===== HELPER METHODS =====
+        
+        /// <summary>
+        /// Get the ability modifier for a given ability score
+        /// </summary>
+        public static int GetAbilityModifier(int abilityScore)
+        {
+            return (abilityScore - 10) / 2;
         }
-    }
 
-    /// <summary>
-    /// Validates D&D dice notation (e.g., "1d8+3", "2d6")
-    /// </summary>
-    public class DiceNotationAttribute : ValidationAttribute
-    {
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        /// <summary>
+        /// Get formatted ability modifier with + or - sign
+        /// </summary>
+        public string GetFormattedModifier(int abilityScore)
         {
-            if (value is not string diceString || string.IsNullOrEmpty(diceString))
-                return ValidationResult.Success; // Let Required attribute handle null/empty
+            var modifier = GetAbilityModifier(abilityScore);
+            return modifier >= 0 ? $"+{modifier}" : modifier.ToString();
+        }
 
-            var pattern = @"^(\d+d\d+(\+\d+)?|0)$";
-            if (!System.Text.RegularExpressions.Regex.IsMatch(diceString, pattern))
+        /// <summary>
+        /// Get proficiency bonus based on character level
+        /// </summary>
+        [NotMapped]
+        public int ProficiencyBonus => Level switch
+        {
+            >= 17 => 6,
+            >= 13 => 5,
+            >= 9 => 4,
+            >= 5 => 3,
+            _ => 2
+        };
+
+        /// <summary>
+        /// Calculate spell attack bonus (for spellcasters)
+        /// </summary>
+        [NotMapped]
+        public int SpellAttackBonus
+        {
+            get
             {
-                // Handle nullable MemberName safely
-                var memberNames = validationContext.MemberName != null 
-                    ? new[] { validationContext.MemberName } 
-                    : Array.Empty<string>();
-                    
-                return new ValidationResult(
-                    "Dice notation must be in format like '1d8', '1d8+3', '2d6+1', or '0'",
-                    memberNames);
+                var spellcastingModifier = CharacterClass.ToLower() switch
+                {
+                    "wizard" => IntelligenceModifier,
+                    "cleric" or "druid" or "ranger" => WisdomModifier,
+                    "bard" or "paladin" or "sorcerer" or "warlock" => CharismaModifier,
+                    _ => 0
+                };
+                return ProficiencyBonus + spellcastingModifier;
             }
-            
-            return ValidationResult.Success;
+        }
+
+        /// <summary>
+        /// Calculate spell save DC (for spellcasters)
+        /// </summary>
+        [NotMapped]
+        public int SpellSaveDC => 8 + SpellAttackBonus;
+
+        /// <summary>
+        /// Get character's initiative bonus
+        /// </summary>
+        [NotMapped]
+        public int InitiativeBonus => DexterityModifier;
+
+        /// <summary>
+        /// Get character's passive perception
+        /// </summary>
+        [NotMapped]
+        public int PassivePerception => 10 + WisdomModifier + (HasSkillProficiency("Perception") ? ProficiencyBonus : 0);
+
+        /// <summary>
+        /// Check if character has proficiency in a skill (simplified)
+        /// </summary>
+        public bool HasSkillProficiency(string skill)
+        {
+            // This is a simplified check - in a full implementation, 
+            // you'd store skill proficiencies in the database
+            return CharacterClass.ToLower() switch
+            {
+                "rogue" => skill.ToLower() is "stealth" or "sleight of hand" or "thieves' tools",
+                "ranger" => skill.ToLower() is "survival" or "animal handling" or "perception",
+                "cleric" => skill.ToLower() is "insight" or "religion",
+                "wizard" => skill.ToLower() is "arcana" or "investigation",
+                _ => false
+            };
+        }
+
+        /// <summary>
+        /// Get a summary string of the character
+        /// </summary>
+        public override string ToString()
+        {
+            return $"{Name}, Level {Level} {Race} {CharacterClass} ({Health}/{MaxHealth} HP)";
         }
     }
 }
